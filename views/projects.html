@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>/* Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #1a1a1a;
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Navbar */
+header.navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: #111;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #00d1ff;
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .nav-toggle span {
+      background: #fff;
+      height: 3px;
+      margin: 4px 0;
+      width: 25px;
+      border-radius: 2px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: 500;
+      background: #333;
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .nav-links a:hover {
+      background: #00d1ff;
+      color: #000;
+      transform: scale(1.1);
+    }
+/* Info Box */
+.info-box {
+  background: #222;
+  border-left: 5px solid #00d1ff;
+  padding: 15px 20px;
+  margin-bottom: 30px;
+  color: #ccc;
+  font-size: 16px;
+  line-height: 1.4;
+  border-radius: 5px;
+}
+
+/* Projects Section */
+.projects-section {
+  max-width: 1100px;
+  margin: 60px auto;
+  padding: 0 30px;
+}
+.projects-section h2 {
+  font-size: 36px;
+  margin-bottom: 40px;
+  color: #00d1ff;
+  text-align: center;
+}
+
+/* Projects Grid */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+/* Project Card */
+.project-card {
+  background: #222;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 209, 255, 0.3);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+.project-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 25px rgba(0, 209, 255, 0.7);
+}
+
+.project-card img {
+  width: 100%;
+  object-fit: cover;
+  height: 180px;
+  filter: brightness(0.9);
+  transition: filter 0.3s ease;
+}
+.project-card:hover img {
+  filter: brightness(1);
+}
+
+.project-info {
+  padding: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+.project-info h3 {
+  color: #00d1ff;
+  margin-bottom: 12px;
+  font-size: 22px;
+}
+.project-info p {
+  flex-grow: 1;
+  font-size: 16px;
+  color: #ccc;
+  margin-bottom: 20px;
+}
+.project-info .btn {
+  align-self: flex-start;
+  background: #00d1ff;
+  color: #111;
+  padding: 10px 18px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+.project-info .btn:hover {
+  background-color: #00ffff;
+}
+
+/* Animations: Scroll-triggered */
+.fade-slide-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-slide-up.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .project-card img {
+    height: 150px;
+  }
+}
+</style>
+  <title>Yamuna ST | Projects</title>
+  <link rel="stylesheet" href="/css/projects-style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">Portfolio.</div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/projects" class="active">Projects</a></li>
+      <li><a href="/certificates">Certifications</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </header>
+
+  <section class="projects-section">
+    <h2 class="fade-slide-up">My Projects</h2>
+
+  
+    <div class="info-box">
+      These projects showcase my skills in web development, machine learning, and data analysis. Click on the links to view the full repositories.
+    </div>
+
+    <div class="projects-grid">
+      <div class="project-card fade-slide-up">
+        <img src="/images/CRM_Sales.png" alt="Project 1 Screenshot" />
+        <div class="project-info">
+          <h3>CRM-Sales-Analysis-Power-BI-dashboard</h3>
+          <p>Interactive Power BI dashboard providing insights into sales performance, pipeline stages, and team efficiency for smarter CRM decisions.</p>
+          <a href="https://github.com/YAMUNAST/CRM-Sales-Analysis-Power-BI-dashboard" target="_blank" class="btn">Inspect Source</a>
+        </div>
+      </div>
+
+      <div class="project-card fade-slide-up">
+        <img src="/images/profile2.png" alt="Project 2 Screenshot" />
+        <div class="project-info">
+          <h3>Global-Regional-Demographics-data-pipeline</h3>
+          <p>Scraped population data from the web and transformed it into a clean, interactive dashboard showcasing global and regional trends.</p>
+          <a href="https://github.com/YAMUNAST/Global-Regional-Demographics-data-pipeline" target="_blank" class="btn">Inspect Source</a>
+        </div>
+      </div>
+
+      <div class="project-card">
+   <img src="/images/qr.png" alt="Project 3 Screenshot" />
+  <div class="project-info">
+    <h3>QR_Code_Detector</h3>
+    <p>Built with OpenCV and Pyzbar to scan and decode QR codes instantly using  webcam.</p>
+    <a href="https://github.com/YAMUNAST/QR_code_detector" class="btn" target="_blank">Inspect Source</a>
+  </div>
+</div>
+
+<div class="project-card">
+   <img src="/images/download.png" alt="Project 4 Screenshot" />
+  <div class="project-info">
+    <h3>Web Scraping</h3>
+    <p>Scraped data from multiple websites using BeautifulSoup and Scrapy libraries to gather valuable information efficiently.</p>
+    <a href="https://github.com/YAMUNAST/Web-scraping" class="btn" target="_blank">Inspect Source</a>
+  </div>
+</div>
+
+
+      <div class="project-card fade-slide-up">
+        <img src="/images/voice.png" alt="Project 5 Screenshot" />
+        <div class="project-info">
+          <h3>VoiceSentiment-Analyzer</h3>
+          <p>A Flask app using NLTK to analyze spoken words and determine if the sentiment is positive or negative based on keyword detection.</p>
+          <a href="https://github.com/YAMUNAST/VoiceSentiment-Analyzer" target="_blank" class="btn">Inspect Source</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Scroll-triggered animation with IntersectionObserver
+    const faders = document.querySelectorAll('.fade-slide-up');
+    const options = { threshold: 0.1 };
+
+    const appearOnScroll = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('animate');
+        observer.unobserve(entry.target);
+      });
+    }, options);
+
+    faders.forEach(fader => appearOnScroll.observe(fader));
+  </script>
+</body>
+</html

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Certificates | Yamuna ST</title>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <style>
+    body {
+      background: #0d1117;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 80px;
+      background: #161b22;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #00d1ff;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links li a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      transition: color 0.3s;
+      background: #333;
+      padding: 8px 16px;
+      border-radius: 6px;
+    }
+
+    .nav-links li a:hover {
+      color: #000;
+      background: #00d1ff;
+      transform: scale(1.1);
+    }
+
+    .certificates-section {
+      padding: 50px 80px;
+      text-align: center;
+    }
+
+    .certificates-section h1 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      color: #00e0ff;
+    }
+
+    .certificate-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .certificate-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: #161b22;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px #00e0ff33;
+      position: relative;
+    }
+
+    .card h2 {
+      color: white;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .preview-img {
+      margin-top: 15px;
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .menu {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      cursor: pointer;
+      color: white;
+      font-size: 20px;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 15px;
+      top: 40px;
+      background: #1f2733;
+      border: 1px solid #00e0ff44;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #00e0ff22;
+      z-index: 100;
+    }
+
+    .dropdown button {
+      background: none;
+      border: none;
+      color: white;
+      padding: 10px 15px;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .dropdown button:hover {
+      background: #00e0ff22;
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">Portfolio.</div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/projects">Projects</a></li>
+      <li><a href="/certificats" class="active">Certifications</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </header>
+
+  <main class="certificates-section">
+    <h1 data-aos="fade-up">My Certifications</h1>
+    <div class="certificate-grid" id="certGrid"></div>
+  </main>
+
+  <!-- AOS JS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 1000, once: true });
+  </script>
+
+  <!-- Certificate Script -->
+  <script>
+    const grid = document.getElementById('certGrid');
+
+    function renderCertificates() {
+      fetch('/certificates-data')
+        .then(res => res.json())
+        .then(data => {
+          grid.innerHTML = '';
+          data.forEach(cert => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.setAttribute('data-aos', 'fade-up');
+            card.innerHTML = `
+              <div class="menu" onclick="toggleDropdown(this)">⋮</div>
+              <div class="dropdown">
+                <button onclick="editTitle('${cert.filename}', this)">Edit Title</button>
+                <button onclick="replaceImage('${cert.filename}', this)">Replace Image</button>
+                <button onclick="deleteCertificate('${cert.filename}')">Delete</button>
+              </div>
+              <h2>${cert.title}</h2>
+              <img class="preview-img" src="/uploads/${cert.filename}" />
+            `;
+            grid.appendChild(card);
+          });
+        });
+    }
+
+    function toggleDropdown(elem) {
+      document.querySelectorAll('.dropdown').forEach(menu => menu.style.display = 'none');
+      const dropdown = elem.nextElementSibling;
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function editTitle(filename, btn) {
+      const newTitle = prompt("Enter new title:");
+      if (newTitle) {
+        fetch('/update-title', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ filename, newTitle })
+        }).then(() => renderCertificates());
+      }
+    }
+
+    function replaceImage(filename, btn) {
+      const fileInput = document.createElement('input');
+      fileInput.type = 'file';
+      fileInput.accept = 'image/*';
+      fileInput.onchange = () => {
+        const formData = new FormData();
+        formData.append('certificate', fileInput.files[0]);
+        formData.append('filename', filename);
+        fetch('/replace', { method: 'POST', body: formData })
+          .then(() => renderCertificates());
+      };
+      fileInput.click();
+    }
+
+    function deleteCertificate(filename) {
+      if (confirm("Are you sure you want to delete this certificate?")) {
+        fetch('/delete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ filename })
+        }).then(() => renderCertificates());
+      }
+    }
+
+    window.onclick = function(event) {
+      if (!event.target.matches('.menu')) {
+        document.querySelectorAll('.dropdown').forEach(menu => {
+          menu.style.display = 'none';
+        });
+      }
+    };
+
+    renderCertificates();
+  </script>
+</body>
+</html>
